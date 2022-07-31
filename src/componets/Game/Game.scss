@@ -13,6 +13,7 @@
     right: 10px;
     height: 100%;
     gap: 10px;
+    z-index: 8;
   }
 
   .game__container {
@@ -22,6 +23,9 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
+    position: relative;
+    z-index: 10;
+
 
     .game__info {
       width: 100%;
@@ -29,7 +33,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-
+      flex-wrap: wrap;
       font-size: 20px;
       text-transform: uppercase;
       font-family: 'Poppins', sans-serif;
@@ -65,8 +69,8 @@
           z-index: -1;
           position: absolute;
           height: 100%;
-          top: 0px;
-          right: 0px;
+          top: -8px;
+          right: -8px;
           transition: 0.2s;
           animation: btnShow 1s 1.5s forwards;
         }
@@ -74,6 +78,72 @@
         &:hover::after {
           top: 0px;
           right: 0px;
+        }
+
+      }
+
+      .game__info-timer {
+        display: flex;
+        gap: 5px;
+        flex-wrap: nowrap;
+
+        p {
+          width: 50px;
+          height: 40px;
+          background-color: #B3DBC0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 600;
+          border: 1px solid black;
+          position: relative;
+          span {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 9px;
+          }
+        }
+
+        .start,
+        .stop {
+          width: 80px;
+          height: 40px;
+          font-size: 16px;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 600;
+          letter-spacing: 1px;
+          outline: 0;
+          border: 1px solid black;
+          cursor: pointer;
+          position: relative;
+          background-color: rgba(0, 0, 0, 0);
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+          text-transform: uppercase;
+          z-index: 1;
+
+          &::after {
+            content: "";
+            background-color: #B3DBC0;
+            width: 100%;
+            z-index: -1;
+            position: absolute;
+            height: 100%;
+            top: -8px;
+            right: -8px;
+            transition: 0.2s;
+
+          }
+
+          &:hover::after {
+            top: 0px;
+            right: 0px;
+          }
+
         }
       }
     }
@@ -88,14 +158,51 @@
 
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-rows: repeat(1, 1fr);
       gap: 20px;
       margin-bottom: 40px;
       padding: 10px;
 
+      position: relative;
+
+      .pauseModal {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 50;
+
+        .pauseText {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 4rem;
+          font-weight: 700;
+          background: url('../../assents/img/logo-card.svg');
+          color: transparent;
+          -webkit-background-clip: text;
+          animation: animate 10s infinite linear;
+        }
+      }
+
+      @keyframes animate {
+        0% {
+          background-position: 0 0;
+        }
+
+        100% {
+          background-position: 100% 100%;
+        }
+      }
+
       .card {
         background-color: white;
-        width: auto;
+        width: 100%;
         height: auto;
         box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
         padding: 30px;
@@ -111,10 +218,6 @@
         // animation: showCard 1s 1 forwards;
         // animation-delay: 1s;
 
-        &:hover {
-          transform: rotateY(180deg);
-        }
-
         .icon_show {
           border-radius: 10px;
           backface-visibility: hidden;
@@ -125,6 +228,7 @@
             width: 100%;
             height: 100%;
             fill: red;
+
           }
         }
 
@@ -132,20 +236,129 @@
           position: absolute;
           top: 0;
           left: 0;
+          bottom: 0;
+          width: 100%;
           backface-visibility: hidden;
           overflow: hidden;
           transform: rotateY(180deg);
+          object-fit: cover;
 
           .color {
             width: 100%;
             height: 100%;
+            border-radius: 50%;
+          }
+        }
+
+        &.is-flipped {
+          transform: rotateY(180deg);
+        }
+
+        &.is-inactive {
+          transform: scale(0) rotate(0);
+          animation: hideCard 0.4s ease-in-out;
+        }
+
+        @keyframes hideCard {
+          0% {
+            transform: scale(1) rotate(0);
+          }
+
+          100% {
+            transform: scale(0) rotate(360deg);
+
           }
         }
       }
     }
   }
-}
 
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsla(0, 0%, 0%, 0.8);
+
+    .modal__content {
+      z-index: 21;
+      width: 100%;
+      height: auto;
+      background-color: #04adfe;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 15px;
+
+      .modal__text {
+        max-width: 1200px;
+        width: 100%;
+        text-align: left;
+        padding: 60px;
+        border: 1px solid white;
+
+        p {
+          color: white;
+          font-family: 'Poppins', sans-serif;
+          text-transform: uppercase;
+          font-size: 1.4rem;
+          font-weight: 700;
+        }
+
+        .btns {
+          display: flex;
+          gap: 20px 40px ;
+          margin-top: 40px;
+          flex-wrap: wrap;
+          .button {
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 10px 50px 10px;
+            outline: 0;
+            border: 1px solid black;
+            cursor: pointer;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            text-transform: uppercase;
+            z-index: 1;
+            text-decoration: none;
+            color: black;
+
+            &::after {
+              content: "";
+              background-color: #ffe44c;
+              width: 100%;
+              z-index: -1;
+              position: absolute;
+              height: 100%;
+              top: -8px;
+              right: -8px;
+              transition: 0.2s;
+              animation: btnShow 1s 1.5s forwards;
+            }
+
+            &:hover::after {
+              top: 0px;
+              right: 0px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
 
 @keyframes showColor {
   100% {
@@ -153,21 +366,103 @@
   }
 }
 
-// @keyframes showCard {
-//   100% {
-//     transform: scale(1);
-//     opacity: 1;
-//   }
-// }
-
-@keyframes btnShow {
-  0% {
-    top: 0px;
-    right: 0px;
-  }
-
-  100% {
-    top: -8px;
-    right: -8px;
+@media (max-width: 500px) {
+  .game {
+    .game__container {
+      .game__info {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .game__info-btn {
+          padding: 5px 30px ;
+        }
+  
+        .game__info-timer {
+          display: flex;
+          gap: 5px;
+          flex-wrap: nowrap;
+  
+          p {
+            width: 50px;
+            height: 40px;
+            background-color: #B3DBC0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border: 1px solid black;
+            position: relative;
+            span {
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              font-size: 9px;
+            }
+          }
+  
+          .start,
+          .stop {
+            width: 80px;
+            height: 40px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            outline: 0;
+            border: 1px solid black;
+            cursor: pointer;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            text-transform: uppercase;
+            z-index: 1;
+  
+            &::after {
+              content: "";
+              background-color: #B3DBC0;
+              width: 100%;
+              z-index: -1;
+              position: absolute;
+              height: 100%;
+              top: -8px;
+              right: -8px;
+              transition: 0.2s;
+  
+            }
+  
+            &:hover::after {
+              top: 0px;
+              right: 0px;
+            }
+  
+          }
+        }
+      }
+    
+  
+      .game__cards {
+        .card {
+          padding: 5px;
+        }
+      }
+    }
+    .modal {
+      .modal__content {
+        .modal__text {
+          padding: 30px;
+          .btns {
+            .button {
+              padding: 5px 30px 5px;
+              outline: 0;
+            }
+          }
+        }
+      }
+  
+    }
   }
 }
