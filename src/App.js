@@ -5,6 +5,7 @@ import Game from './componets/Game/Game';
 import LeaderBoard from './componets/Leaderboard/LeaderBoard';
 
 function App() {
+  
   return (
     <div className="App">
       <Routes>

@@ -2,27 +2,27 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.scss";
 import rules from "../../assents/img/rules.png";
+import {Link} from 'react-router-dom'
 const Home = () => {
   const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState(false);
-  const [activeRadio, setActiveRadio] = useState("");
+  const [activeRadio, setActiveRadio] = useState("20");
   const [value, setValue] = useState(1);
   const [modal, setModal] = useState(false);
+  const [gird, setGrid] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.length >= 3) {
       setValue(e.target.value);
-      console.log(setValue);
       localStorage.setItem("user", inputValue);
       navigate("/game");
       setActiveRadio();
+      localStorage.setItem("mode", activeRadio);
     } else {
       setError(true);
     }
   };
-
-
 
   return (
     <div className="home">
@@ -99,8 +99,10 @@ const Home = () => {
         </div>
       ) : null}
       <div className="rules">
-        <img src={rules} alt="" onClick={() => setModal(true)}/>
+        <img src={rules} alt="" onClick={() => setModal(true)} />
         <p>Click to me!!!</p>
+        <Link to="/leaderboard">leaderboard</Link>
+
       </div>
       <form className="home__container" onSubmit={handleSubmit}>
         <p className="home__title">Welcome to Memory game</p>
@@ -122,10 +124,12 @@ const Home = () => {
               name="mode"
               id="oneMode"
               className="checkbox"
-              value="oneMode"
+              value={20}
+              checked={activeRadio === "20"}
               onChange={(e) => setActiveRadio(e.target.value)}
+              // onClick={(e) => setChecked(e.target.value)}
             />
-            <label htmlFor="oneMode">3x4</label>
+            <label htmlFor="oneMode">5x4</label>
           </div>
           <div className="oneMode">
             <input
@@ -133,10 +137,11 @@ const Home = () => {
               name="mode"
               id="twoMode"
               className="checkbox"
-              value="twoMode"
+              value={16}
+              // onClick={(e) => setChecked(e.target.value)}
               onChange={(e) => setActiveRadio(e.target.value)}
             />
-            <label htmlFor="twoMode">4x5</label>
+            <label htmlFor="twoMode">4x4</label>
           </div>
           <div className="oneMode">
             <input
@@ -144,11 +149,13 @@ const Home = () => {
               name="mode"
               id="threeMode"
               className="checkbox"
-              value="threeMode"
+              value={12}
               onChange={(e) => setActiveRadio(e.target.value)}
+              // onClick={(e) => setChecked(e.target.value)}
             />
-            <label htmlFor="threeMode">5x6</label>
+            <label htmlFor="threeMode">4x3</label>
           </div>
+
         </div>
         <button
           type="submit"

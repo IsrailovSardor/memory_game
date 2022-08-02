@@ -149,7 +149,8 @@
     }
 
     .game__cards {
-      width: 100%;
+      margin: auto;
+      width: 60%;
       height: 100%;
       background-color: white;
       border-top-left-radius: 5px;
@@ -157,7 +158,7 @@
       box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) 0px 4px 16px 5px;
 
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(1, 1fr);
       gap: 20px;
       margin-bottom: 40px;
@@ -445,6 +446,7 @@
     
   
       .game__cards {
+        width: 100%;
         .card {
           padding: 5px;
         }

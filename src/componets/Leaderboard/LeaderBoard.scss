@@ -110,10 +110,76 @@
                 }
 
             }
+            .dropdown_block {
+                height: 40px;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 20px;
+                gap:20px;
+                .dropdown {
+                    width: 180px;
+                    border-radius: 10px;
+                    background-color: white;
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                  }
+                  
+                  .dropdown-header {
+                    padding: 10px;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  }
+                  
+                  .dropdown-body {
+                    border-top: 1px solid #E5E8EC;
+                    display: none;
+                  }
+                  
+                  .dropdown-body.open {
+                    display: block;
+                    margin-top: 10px;
+                    position: relative;
+                    z-index: 25;
+                    border-radius: 10px;
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                    background-color: white;
+                  }
+                  
+                  .dropdown-item {
+                    padding: 10px;
+                  }
+                  
+                  .dropdown-item:hover {
+                    cursor: pointer;
+                  }
+                  
+                  .dropdown-item-dot {
+                    opacity: 0;
+                    color: #91A5BE;
+                    transition: all .2s ease-in-out;
+                  }
+                  
+                  .dropdown-item-dot.selected {
+                    opacity: 1;
+                  }
+                  
+                  .icon {
+                    font-size: 25px;
+                    color: #91A5BE;
+                    transform: rotate(0deg);
+                    transition: all .2s ease-in-out;
+                  }
+                  
+                  .icon.open {
+                    transform: rotate(180deg);
+                  }
+            }
 
             .info__footer {
                 width: 100%;
-                height: calc(100% - 80px);
+                height: calc(100% - 80px - 60px);
                 display: flex;
                 flex-direction: column;
                 gap: 20px;

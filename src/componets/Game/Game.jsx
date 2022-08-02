@@ -1,10 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Game.scss";
-import img from "../../assents/img/7.jpg";
 import Card from "./Card";
 import { Link } from "react-router-dom";
 
 const uniqueCardsArray = [
+  {
+    type: "Tima",
+    img: require(`../../assents/img/2.jpg`),
+  },
+  {
+    type: "Aidar",
+    img: require(`../../assents/img/1.jpg`),
+  },
+  {
+    type: "Talga",
+    img: require(`../../assents/img/3.jpg`),
+  },
+  {
+    type: "Nurs",
+    img: require(`../../assents/img/5.jpg`),
+  },
+  {
+    type: "Oskon",
+    img: require(`../../assents/img/6.jpg`),
+  },
+  {
+    type: "Aman",
+    img: require(`../../assents/img/7.jpg`),
+  },
   {
     type: "Bakai",
     img: require(`../../assents/img/8.jpg`),
@@ -14,21 +37,13 @@ const uniqueCardsArray = [
     img: require(`../../assents/img/9.jpg`),
   },
   {
-    type: "Talga",
-    img: require(`../../assents/img/3.jpg`),
-  },
-  {
     type: "Erjan",
     img: require(`../../assents/img/10.jpg`),
   },
   {
-    type: "Nurs",
-    img: require(`../../assents/img/5.jpg`),
+    type: "Sardor",
+    img: require(`../../assents/img/11.jpg`),
   },
-  // {
-  //   type: "Sardor",
-  //   img: require(`../../assents/img/11.jpg`),
-  // },
 ];
 function shuffleCards(array) {
   const length = array.length;
@@ -49,9 +64,12 @@ const Game = () => {
   const [shouldDisableAllCards, setShouldDisableAllCards] = useState(false);
   const [moves, setMoves] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const mode = localStorage.getItem("mode");
+  const actualCards = uniqueCardsArray.slice(0, mode / 2);
   const [cards, setCards] = useState(() =>
-    shuffleCards(uniqueCardsArray.concat(uniqueCardsArray))
+    shuffleCards(actualCards.concat(actualCards))
   );
+
   const userName = localStorage.getItem("user");
   const colors = ["#FDF6F6", "#B3DBC0", "#F9BA32", "#FE0000"];
   const [pauseModal, setPauseModal] = useState(false);
@@ -62,6 +80,7 @@ const Game = () => {
   const enable = () => {
     setShouldDisableAllCards(false);
   };
+
   const localDate = () => {
     const currentName = localStorage.getItem("user");
     const scorePlus = moves * itogTime;
@@ -71,6 +90,7 @@ const Game = () => {
       moves: moves,
       score: scorePlus,
       timeSpan: date,
+      mode: mode,
       id: 0,
     };
     let score = JSON.parse(localStorage.getItem("score"));
@@ -88,6 +108,7 @@ const Game = () => {
           moves: moves,
           score: scorePlus,
           timeSpan: date,
+          mode: mode,
         };
       } else {
         return user;
@@ -97,7 +118,7 @@ const Game = () => {
   };
 
   const checkCompletion = () => {
-    if (Object.keys(clearedCards).length === uniqueCardsArray.length) {
+    if (Object.keys(clearedCards).length === actualCards.length) {
       setShowModal(true);
       clearInterval(inter);
       localDate();
@@ -159,8 +180,7 @@ const Game = () => {
     setShowModal(false);
     setMoves(0);
     setShouldDisableAllCards(false);
-    // set a shuffled deck of cards
-    setCards(shuffleCards(uniqueCardsArray.concat(uniqueCardsArray)));
+    setCards(shuffleCards(actualCards.concat(actualCards)));
     timerReset();
   };
 
@@ -229,6 +249,7 @@ const Game = () => {
       <div className="game__container">
         <div className="game__info">
           <p className="game__info-user">{userName}</p>
+          <p>Mode: {mode == 12 ? 3 : mode / 4}x{4}</p>
           <p className="game__info-moves">Moves: {moves}</p>
           <div className="game__info-timer">
             {timer.m === 0 ? (
@@ -258,7 +279,12 @@ const Game = () => {
             Restart
           </button>
         </div>
-        <div className="game__cards">
+        <div
+          className="game__cards"
+          style={{
+            gridTemplateColumns: `repeat(${mode == 12 ? 4 : mode / 4}, 1fr)`,
+          }}
+        >
           {pauseModal ? (
             <div className="pauseModal">
               <p className="pauseText">STOP GAME</p>
