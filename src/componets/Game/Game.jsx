@@ -10,7 +10,7 @@ const uniqueCardsArray = [
   },
   {
     type: "Aidar",
-    img: require(`../../assents/img/1.jpg`),
+    img: require(`../../assents/img/4.jpg`),
   },
   {
     type: "Talga",
