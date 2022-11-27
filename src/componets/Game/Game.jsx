@@ -248,7 +248,7 @@ const Game = () => {
       </div>
       <div className="game__container">
         <div className="game__info">
-          <p className="game__info-user">{userName}</p>
+          <p className="game__info-user" data-testid="user-test">{userName}</p>
           <p>Mode: {mode == 12 ? 3 : mode / 4}x{4}</p>
           <p className="game__info-moves">Moves: {moves}</p>
           <div className="game__info-timer">

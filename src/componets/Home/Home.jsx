@@ -10,7 +10,7 @@ const Home = () => {
   const [activeRadio, setActiveRadio] = useState("20");
   const [value, setValue] = useState(1);
   const [modal, setModal] = useState(false);
-  const [gird, setGrid] = useState();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.length >= 3) {
@@ -90,7 +90,7 @@ const Home = () => {
                 <div className="one"></div>
                 <div className="one"></div>
                 <div className="one"></div>
-                <button className="ok" onClick={() => setModal(false)}>
+                <button className="ok" data-testid="close-rules" onClick={() => setModal(false)}>
                   OK
                 </button>
               </div>
@@ -99,10 +99,9 @@ const Home = () => {
         </div>
       ) : null}
       <div className="rules">
-        <img src={rules} alt="" onClick={() => setModal(true)} />
+        <img src={rules} alt="" data-testid="rules-test" onClick={() => setModal(true)} />
         <p>Click to me!!!</p>
         <Link to="/leaderboard">leaderboard</Link>
-
       </div>
       <form className="home__container" onSubmit={handleSubmit}>
         <p className="home__title">Welcome to Memory game</p>
@@ -116,7 +115,7 @@ const Home = () => {
             setError(false);
           }}
         />
-        {error ? <p className="error">Ведите больше 2 букв</p> : null}
+        {error ? <p className="error" data-testid="error-text">Ведите больше 2 букв</p> : null}
         <div className="rabioMode">
           <div className="oneMode">
             <input
@@ -160,6 +159,7 @@ const Home = () => {
         <button
           type="submit"
           className={inputValue.length >= 3 ? "home__btn-show" : "home__btn"}
+          data-testid='btn-submit'
         >
           Play
         </button>
